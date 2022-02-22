@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Login V1</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="loginform/images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="loginform/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="loginform/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="loginform/vendor/animate/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="loginform/vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="loginform/vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="loginform/css/util.css">
+	<link rel="stylesheet" type="text/css" href="loginform/css/main.css">
+<!--===============================================================================================-->
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+	<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-database.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-analytics.js"></script>
+
+</head>
+<body>
+
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100" style="background-image: url('loginform/images/login_image02.jpg'); background-repeat: no-repeat; background-attachment: fixed; background-size: cover;">	
+
+				<form href="customer_dashboard.html" class="login100-form validate-form">
+					<span class="login100-form-title">
+						Member Login
+					</span>
+
+					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+						<input class="input100" type="text" name="Full-Name" placeholder="Full-Name" id="fullname">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-info" aria-hidden="true"></i>
+						</span>
+					</div>
+          <div class="wrap-input100 validate-input" data-validate = "Valid phonenumber is required: 91+">
+            <input class="input100" type="text" name="Phone-Number" placeholder="Phone-Number (91+)" id="phonenumber">
+            <span class="focus-input100"></span>
+            <span class="symbol-input100">
+              <i class="fa fa-phone" aria-hidden="true"></i>
+            </span>
+          </div>
+
+					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+						<input class="input100" type="Email" name="Email" placeholder="Email" id="email">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-envelope" aria-hidden="true"></i>
+						</span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate = "Password is required">
+						<input class="input100" type="password" name="Password" placeholder="Password" id="pass">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate = "Password is required">
+						<input class="input100" type="text" name="add" placeholder="Address" id="add">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-address-card" aria-hidden="true"></i>
+						</span>
+					</div>
+          <div>
+					<input type="radio" id="manufacturer" name="role" value="Manufacturer">
+					<label for="manufacturer">Manufacturer</label><br>
+					<input type="radio" id="distributor" name="role" value="Distributor">
+				    <label for="distributor">Distributor</label><br>
+				    <input type="radio" id="retailer" name="role" value="Retailer">
+				    <label for="retailer">Retailer</label><br>
+				    <input type="radio" id="customer" name="role" value="Customer">
+				    <label for="customer">Customer</label><br><br>
+				    </div>
+					
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn" type="button" id="registerbtn">
+							Register
+						</button>
+					</div>
+
+          <div class="text-left p-t-40">
+            <a class="txt2" href="login.html">
+              <i class="fa fa-long-arrow-left m-l-5" aria-hidden="true"></i>
+              Login Page
+            </a>
+          </div>
+					
+
+					
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  /*var firebaseConfig = {
+    apiKey: "AIzaSyAV3SVokGcFr1e04vvjjbFU3cag8L1VqaA",
+    authDomain: "loginform-7acae.firebaseapp.com",
+    databaseURL: "https://loginform-7acae-default-rtdb.firebaseio.com",
+    projectId: "loginform-7acae",
+    storageBucket: "loginform-7acae.appspot.com",
+    messagingSenderId: "244622916096",
+    appId: "1:244622916096:web:de0135a2f8c130929936e5",
+    measurementId: "G-HPL4VJ18PJ"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+  var database = firebase.database();
+  
+
+  var registerbtn = document.getElementById("registerbtn")
+  
+  
+  
+
+  registerbtn.onclick = function(){
+      var ref = database.ref("records");
+      let fullname = document.getElementById("fullname")
+       let emailsignup = document.getElementById("email")
+  		let passwordsignup = document.getElementById("pass")
+  		let manufacturer = document.getElementById("manufacturer")
+  		let distributor = document.getElementById("distributor")
+  		let retailer = document.getElementById("retailer")
+  		let customer = document.getElementById("customer")
+  		if(manufacturer.checked == true){
+  			var role = manufacturer.value
+  		}else if(customer.checked == true){
+  			var role = customer.value
+  		}else if(distributor.checked == true){
+  			var role = distributor.value
+  		}else if(customer.checked == true){
+  			var role = customer.value
+  		}
+        //get data
+		alert(role);        
+
+
+
+
+        firebase.auth().createUserWithEmailAndPassword(emailsignup.value, passwordsignup.value).then(function(response){
+        sendingVerifyEmail(registerbtn);
+        alert("signed up");
+        var data = {
+          Name: fullname.value,
+          Email: emailsignup.value,
+          Password: passwordsignup.value,
+          Role: role
+        }
+        
+         ref.push(data);
+
+    alert("successfully signed up") ;      
+        console.log(response);
+      })
+      .catch(function(error){
+       
+       alert("password len>=6");
+          console.log(error);
+      })
+
+            }*/
+  
+
+var firebaseConfig = {
+    apiKey: "AIzaSyAV3SVokGcFr1e04vvjjbFU3cag8L1VqaA",
+    authDomain: "loginform-7acae.firebaseapp.com",
+    databaseURL: "https://loginform-7acae-default-rtdb.firebaseio.com",
+    projectId: "loginform-7acae",
+    storageBucket: "loginform-7acae.appspot.com",
+    messagingSenderId: "244622916096",
+    appId: "1:244622916096:web:de0135a2f8c130929936e5",
+    measurementId: "G-HPL4VJ18PJ"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+  var database = firebase.database();
+  
+
+  var registerbtn = document.getElementById("registerbtn")
+  
+  
+  
+
+  registerbtn.onclick = function(){
+      var ref = database.ref("records");
+      let fullname = document.getElementById("fullname")
+      let phonenumber = document.getElementById("phonenumber")
+       let emailsignup = document.getElementById("email")
+  		let passwordsignup = document.getElementById("pass")
+  		let manufacturer = document.getElementById("manufacturer")
+  		let distributor = document.getElementById("distributor")
+  		let retailer = document.getElementById("retailer")
+  		let customer = document.getElementById("customer")
+		let addr = document.getElementById("add")
+
+  		if(manufacturer.checked == true){
+  			var role = manufacturer.value
+  		}else if(customer.checked == true){
+  			var role = customer.value
+  		}else if(distributor.checked == true){
+  			var role = distributor.value
+  		}else if(retailer.checked == true){
+  			var role = retailer.value
+  		}
+        //get data
+        var flag=true
+        ref.on("value", function(snapshot){
+          snapshot.forEach(function(childSnapshot){
+            var data = childSnapshot.val();
+            if(data.Email == emailsignup.value ){
+              
+              flag = false;
+              alert("Registered!Please go to logIn page and signIn with your registered email id :).");
+              return;
+            }
+            
+          });
+        })
+
+        if(flag){
+
+              firebase.auth().createUserWithEmailAndPassword(emailsignup.value, passwordsignup.value).then(function(response){
+	        sendingVerifyEmail(registerbtn);
+	        alert("signed up");
+	        var data = {
+	          Name: fullname.value,
+              PhoneNumber: phonenumber.value,
+	          Email: emailsignup.value,
+	          Password: passwordsignup.value,
+	          Role: role,
+			  Address:addr.value //new
+	        }
+        
+         	ref.push(data);
+
+    		alert("Data is stored to improve user experience!");      
+        	console.log(response);
+      })
+      .catch(function(error){
+          console.log(error);
+      })
+
+    }
+    
+
+        
+      
+  }
+
+
+
+
+
+
+function sendingVerifyEmail(button){
+      firebase.auth().currentUser.sendEmailVerification().then(function(response){
+        /*signupbtn.disabled = false;
+        signupbtn.textContent = "SignUp!";*/
+        console.log(response);
+      })
+      .catch(function(error){
+        /*signupbtn.disabled = false;
+        signupbtn.textContent = "SignUp!";*/
+          console.log(error);
+      })
+  }
+
+
+
+
+  
+
+
+
+
+</script>
+
+	
+<!--===============================================================================================-->	
+	<script src="loginform/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="loginform/vendor/bootstrap/js/popper.js"></script>
+	<script src="loginform/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="loginform/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="loginform/vendor/tilt/tilt.jquery.min.js"></script>
+	<script >
+		$('.js-tilt').tilt({
+			scale: 1.1
+		})
+	</script>
+<!--===============================================================================================-->
+	
+
+</body>
+</html>

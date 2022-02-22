@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Headers - 8</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="Check_product/styles/reset.min.css" />
+    <link rel="stylesheet" href="Check_product/styles/style.css" />
+    <link rel="stylesheet" href="Check_product/styles/header-8.css" />
+    
+    <!-- Web3 scripts -->
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js" integrity="sha256-nWBTbvxhJgjslRyuAKJHK+XcZPlCnmIAAMixz6EefVk=" crossorigin="anonymous"></script>
+        <!-- <script src="https://www.unpkg.com/browse/web3@1.3.5/dist/web3.min.js"></script> -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <style type="text/css">
+      body {
+  background-image: url('images/retailer.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}
+    	form {
+			  
+			  padding-top: 200px;
+			  padding-right: 50px;
+			  padding-bottom: 50px;
+			  padding-left: 50px;
+			}	
+      
+      #content{
+        display:none;
+      }
+
+
+    </style>
+
+    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-database.js"></script>
+
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-analytics.js"></script>
+
+  </head>
+  <body>
+    <!-- Header Start -->
+    <header class="site-header">
+      <div class="wrapper site-header__wrapper">
+        <div class="site-header__start">
+          <a href="#" class="brand">Brand</a>
+        </div>
+        <div class="site-header__middle">
+          <nav class="nav">
+            <button class="nav__toggle" aria-expanded="false" type="button">
+              menu
+            </button>
+            <ul class="nav__wrapper">
+              <li class="nav__item"><a href="#">Home</a></li>
+              <li class="nav__item"><a href="profile.html">My Profile</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="site-header__end">
+          <button id="logout">Logout</button>
+        </div>
+      </div>
+    </header>
+    <!-- Header End -->
+
+    
+    	<form align="center" >
+    		<input type="text" name="product_id" id="product_id" placeholder="Enter Your Product ID....">
+    		<!-- <button name="button" id="search_product">Update</i></button> -->
+    	</form>
+
+      
+    <div align="center" >
+    	OR
+    </div>
+    <br>
+    <br>
+     <div align="center">
+     	
+        <input type="file" id="file" name="filename">
+     </div>
+     <br>
+     <br>
+     <br>
+     <br>
+     <center>
+      <button name="button" class="btn" id="search_product">Update</i></button>
+     </center>
+     <br>
+     <br>
+     <p><span id='content'></span></p>
+
+    <script type="text/javascript">
+      
+
+      window.onload = function(){
+        if(localStorage.length == 0){    
+          window.location = "login.html";
+        }
+      }
+     
+
+      var firebaseConfig = {
+    apiKey: "AIzaSyAV3SVokGcFr1e04vvjjbFU3cag8L1VqaA",
+    authDomain: "loginform-7acae.firebaseapp.com",
+    databaseURL: "https://loginform-7acae-default-rtdb.firebaseio.com",
+    projectId: "loginform-7acae",
+    storageBucket: "loginform-7acae.appspot.com",
+    messagingSenderId: "244622916096",
+    appId: "1:244622916096:web:de0135a2f8c130929936e5",
+    measurementId: "G-HPL4VJ18PJ"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+
+
+      //document.getElementById("display_profile").innerHTML = localStorage.getItem("Name");
+      //localStorage.clear();
+
+
+      var logout = document.getElementById("logout");
+       logout.onclick = function(){
+       
+          firebase.auth().signOut().then(function(response){
+            //window.onbeforeunload = function() { return "Your work will be lost."; };
+            //console.log(response);
+            localStorage.clear();
+            window.location = "login.html";
+                      // Sign-out successful.
+            }).catch((error) => {
+              // An error happened.
+            });
+
+          
+            
+       }
+
+       async function CheckMetamaskConnection() {
+            // Modern dapp browsers...
+            if (window.ethereum) {
+                window.web3 = new Web3(window.ethereum);
+                try {
+                    // Request account access if needed
+                    await ethereum.enable();
+                    // Acccounts now exposed
+                    return true;
+                } catch (error) {
+                    // User denied account access...
+                    return false;
+                }
+            }
+            // Legacy dapp browsers...
+            else if (window.web3) {
+                window.web3 = new Web3(web3.currentProvider);
+                // Acccounts always exposed
+
+                return true;
+            }
+            // Non-dapp browsers...
+            else {
+                console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+                return false;
+            }
+        }
+
+        $(document).ready(async function () {
+            var IsMetamask = await CheckMetamaskConnection();
+            if (IsMetamask) {
+                var Address="0x8F88657384EDC5870699d397c7F361d862ee9E83";
+                var ABI=[
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "id",
+				"type": "string"
+			}
+		],
+		"name": "GetManufactDetails",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "id",
+				"type": "string"
+			},
+			{
+				"name": "loc",
+				"type": "string"
+			},
+			{
+				"name": "RName",
+				"type": "string"
+			},
+			{
+				"name": "date",
+				"type": "string"
+			}
+		],
+		"name": "RetailerUpdate",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "id",
+				"type": "string"
+			}
+		],
+		"name": "GetRetailerDetails",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "id",
+				"type": "string"
+			}
+		],
+		"name": "GetDistDetails",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "id",
+				"type": "string"
+			}
+		],
+		"name": "GetProductDetails",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "id",
+				"type": "string"
+			},
+			{
+				"name": "PName",
+				"type": "string"
+			},
+			{
+				"name": "Type",
+				"type": "string"
+			},
+			{
+				"name": "model_no",
+				"type": "string"
+			},
+			{
+				"name": "loc",
+				"type": "string"
+			},
+			{
+				"name": "MName",
+				"type": "string"
+			},
+			{
+				"name": "date",
+				"type": "string"
+			}
+		],
+		"name": "AddProduct",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "generateID",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "id",
+				"type": "string"
+			},
+			{
+				"name": "loc",
+				"type": "string"
+			},
+			{
+				"name": "DName",
+				"type": "string"
+			},
+			{
+				"name": "date",
+				"type": "string"
+			}
+		],
+		"name": "UpdateProduct",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+];
+                myContract =new web3.eth.Contract(ABI,Address);//await web3.eth.contract(ABI).at(Address);
+                console.log("Metamask detected!")
+            } else {
+                console.log("Metamask not detected");
+            }
+        });
+
+
+      document.getElementById("search_product").onclick=function(){
+        // var x=navigator.geolocation;
+        // x.getCurrentPosition(success,failure);
+		var id=document.getElementById("product_id").value.toString();
+		if(id=="")
+        {
+          id=document.getElementById("content").innerHTML.toString();
+          console.log("QR id:",id);
+		}
+		console.log("id",id);
+          document.getElementById("product_id").innerHTML=id;
+          var name=localStorage.getItem("Name").toString();
+		  var loc=localStorage.getItem("Address");//new
+          if(localStorage.getItem("Role")=="Distributor")
+          { 
+            myContract.methods.UpdateProduct(id,loc,name,Date().toString()).send({from: '0xfA56c3FD3c781F60D54Ef6Ac7e0647C43aB7796C'})
+            .then(function(receipt){
+              //console.log(receipt);
+            });
+          }
+          else{
+            myContract.methods.RetailerUpdate(id,loc,name,Date().toString()).send({from: '0xfA56c3FD3c781F60D54Ef6Ac7e0647C43aB7796C'})
+            .then(function(receipt){
+              //console.log(receipt);
+            });
+          }
+      }
+
+      function success(position)
+      {
+        // var loc=position.coords.latitude+" "+position.coords.longitude;
+        //console.log(loc);
+        var id=document.getElementById("product_id").value.toString();
+        if(id=="")
+        {
+          id=document.getElementById("content").innerHTML.toString();
+          console.log("QR id:",id);
+		}
+          // document.getElementById("product_id").innerHTML=id;
+          var name=localStorage.getItem("Name").toString();
+		  var loc=localStorage.getItem("Address");//new
+          if(localStorage.getItem("Role")=="Distributor")
+          { 
+            myContract.methods.UpdateProduct(id,loc,name,Date().toString()).send({from: '0xfA56c3FD3c781F60D54Ef6Ac7e0647C43aB7796C'})
+            .then(function(receipt){
+              //console.log(receipt);
+            });
+          }
+          else{
+            myContract.methods.RetailerUpdate(id,loc,name,Date().toString()).send({from: '0xfA56c3FD3c781F60D54Ef6Ac7e0647C43aB7796C'})
+            .then(function(receipt){
+              //console.log(receipt);
+            });
+          }
+
+        
+      }
+
+      function failure(){
+        console.log("Failure occured");
+
+      }
+
+    </script>
+    <script type="text/javascript" src="js1/qrReader.js"></script>
+    <script src="Check_product/js/header-8.js"></script>
+  </body>
+</html>

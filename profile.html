@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="Check_product/styles/reset.min.css" />
+    <link rel="stylesheet" href="Check_product/styles/style.css" />
+    <link rel="stylesheet" href="Check_product/styles/header-8.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+     <style type="text/css">
+    	body, html {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.hero-image {
+  background-image: url("images/retailer.jpg");
+  background-color: #cccccc;
+  height: 500px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+/*.hero-text {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: black;
+}*/
+
+input {
+  float: right;
+  clear: both;
+}
+#heading{
+  text-align: center;
+}
+#btnalign{
+  text-align: center;
+}
+.btn btn-primary{
+  position: absolute;
+    top: 50%;
+}
+    </style> 
+
+
+</head>
+<body>
+	<header class="site-header">
+      <div class="wrapper site-header__wrapper">
+        <div class="site-header__start">
+          <a href="#" class="brand">Brand</a>
+        </div>
+        <div class="site-header__middle">
+          <nav class="nav">
+            <button class="nav__toggle" aria-expanded="false" type="button">
+              menu
+            </button>
+            <ul class="nav__wrapper">
+              <li class="nav__item"><a href="index.html">Home</a></li>
+              <li class="nav__item"><a href="profile.html" id="display_profile"></a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="site-header__end">
+          <button id="logout">Logout</button>
+        </div>
+      </div>
+    </header>
+    
+
+    <div class="hero-image">
+  <div class="hero-text">
+    <div class="container" style="width: 35%;
+    margin: 10px 400px;
+    padding-top: 100px;
+    /*border: 1px solid white;*/
+    border-radius: 10px;">
+  
+    <h1 id="heading">My Profile</h1><br>
+
+    <div class="form-group">
+      <label for="name">Name:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="text" name="Name" id="Name" ><br>
+    </div>
+    <div class="form-group">
+      <label for="email">Phone Number:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="text" name="Phonenumber" id="Phonenumber">
+    </div>
+
+    <div class="form-group">
+      <label for="number">Email:</label>&nbsp;
+      <input type="text" name="Email" id="Email"><br>
+    </div>
+
+    <!-- <div class="form-group">
+      <label for="password">Password:</label>&nbsp;
+      <input type="text" name="Password" id="Password">
+    </div> -->
+
+    <div class="form-group">
+      <label for="password">Role:</label>&nbsp;
+      <input type="text" name="Role" id="Role">
+    </div>
+
+    <br>
+   
+    <div class="form-group" id="btnalign">
+    <button class="btn btn-primary" id="btn">Update</button>
+    </div>
+    <div class="form-group" id="btnalign">
+    <button class="btn btn-primary" id="Rbtn">Reset Password</button>
+    </div>
+  
+  </div>
+  </div>
+</div>
+
+  
+    <script type="text/javascript">
+    	document.getElementById("Name").placeholder = localStorage.getItem("Name");
+    	document.getElementById("Phonenumber").placeholder = localStorage.getItem("Phone");
+      document.getElementById("Email").placeholder = localStorage.getItem("Email");
+      /*document.getElementById("Password").placeholder = localStorage.getItem("Password");*/
+      document.getElementById("Role").placeholder = localStorage.getItem("Role");
+
+
+
+
+
+
+
+      var btn = document.getElementById("btn");
+      btn.onclick = function(){
+        
+      }
+
+
+    </script>
+
+
+
+</body>
+</html>

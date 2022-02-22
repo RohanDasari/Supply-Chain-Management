@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Headers - 8</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="Check_product/styles/reset.min.css"/>
+    <link rel="stylesheet" href="Check_product/styles/style.css"/>
+    <link rel="stylesheet" href="Check_product/styles/header-8.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+	<script type="text/javascript" src="js1/jquery.js"></script>
+	<script type="text/javascript" src="js1/qrcode.js"></script>
+    <style type="text/css">
+      /*body {
+  background-image: url('images/manufacturer.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+
+}*/
+/*    	form {
+			  
+			  opacity: 0.5;
+			}	
+*/      
+ /*.transbox {
+ 	padding-top: 10px;
+    background-color: #ffffff;
+    border: 1px solid black;
+    opacity: 0.8;
+     color: black;
+  }*/
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+  .bg-image {
+  /* The image used */
+  background-image: url("images/manufacturer1.jpg");
+  
+  /* Add the blur effect */
+  filter: blur(3px);
+  -webkit-filter: blur(3px);
+  
+  /* Full height */
+  height: 100%; 
+  
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.transbox{
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  color: black;
+  font-weight: bold;
+  border: 3px solid #f1f1f1;
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -95%);
+  z-index: 2;
+  width: 70%;
+  padding: 10px;
+  text-align: left;
+}
+
+input {
+  float: right;
+  clear: both;
+}
+
+#btnalign{
+  text-align: center;
+}
+.btn btn-primary{
+  position: absolute;
+    top: 50%;
+}
+
+/* MODAL_STYLES */
+.container1{
+	visibility: hidden;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%)
+        }
+        .container1{
+            background: #fff;
+            width: 264px;
+			height: 250px;
+			padding: 10px;
+            box-shadow: 6px 8px 8px rbga(0,0,0,0.1);
+			z-index: 9;
+			border-radius: 10px;
+        }
+        .container1 .text{
+            font-size: 25px;
+            font-weight: 300;
+            text-align: center;
+			padding-top: 10px;
+        }
+		#close{
+			float: right;
+    background-color: red;
+    border: none;
+    color: white;
+		}
+
+#qrResult{
+	padding: 2rem;
+}
+    </style>
+
+<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-database.js"></script>
+
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-analytics.js"></script>
+
+  </head>
+  <body>
+
+    <!-- Header Start -->
+    <header class="site-header">
+      <div class="wrapper site-header__wrapper">
+        <div class="site-header__start">
+          <a href="#" class="brand">Brand</a>
+        </div>
+        <div class="site-header__middle">
+          <nav class="nav">
+            <button class="nav__toggle" aria-expanded="false" type="button">
+              menu
+            </button>
+            <ul class="nav__wrapper">
+              <li class="nav__item"><a href="#">Home</a></li>
+              <li class="nav__item"><a href="profile.html">My Profile</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="site-header__end">
+          <button id="logout">Logout</button>
+        </div>
+      </div>
+    </header>
+    <!-- Header End -->
+ <div class="bg-image"></div>
+    <form class="transbox">
+	<div class="container" style="width: 50%;
+    margin: 10px 300px;
+
+    /*border: 1px solid white;*/
+    border-radius: 10px;">
+	
+		<h1>Add Product</h1><br>
+
+<!--
+		<div class="form-group">
+			<label for="name">Product ID:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="text" name="P_Id" id="P_Id"><br>
+		</div>
+-->
+
+		<div class="form-group">
+			<label for="email">Product Name:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="text" name="P_Name" id="P_Name">
+		</div>
+
+		<div class="form-group">
+			<label for="number">Product Type:</label>&nbsp;
+			<input type="text" name="P_Type" id="P_Type"><br>
+		</div>
+
+		<div class="form-group">
+			<label for="password">Model Number:</label>&nbsp;
+			<input type="text" name="P_ModelNumber" id="P_ModelNumber">
+		</div>
+
+		<!-- <div class="form-group">
+			<label for="password">Mfr Name:</label>&nbsp;
+			<input type="text" name="P_MfrName" id="P_MfrName">
+		</div> -->
+
+		<!-- <div class="form-group">
+			<label for="password">Mfg Location:</label>&nbsp;
+			<input type="text" name="P_MfgLocation" id="P_MfgLocation">
+		</div> -->
+
+<!--
+		<div class="form-group">
+			<label for="password">Mfg Date:</label>&nbsp;
+      <input type="date" id="P_MfgDate" name="P_MfgDate">
+		</div>
+-->
+    <br>
+    <br>
+		<div class="form-group" id="btnalign">
+		<button class="btn btn-primary" onclick="check(); return false;	">Add</button>
+		</div>
+		
+	
+	</div>
+</form>
+
+
+<div>
+	<div class="center">
+		<div class="container1" id="cont">
+			<button id="close" onclick="close_QR();" class="close-btn fas fa-times">X</button>
+			<div class="text">QR Code</div>
+			<center>
+				<div id="qrResult">
+					
+				</div>
+			</center>
+		</div>
+	</div>
+</div>
+    	
+      <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js" integrity="sha256-nWBTbvxhJgjslRyuAKJHK+XcZPlCnmIAAMixz6EefVk=" crossorigin="anonymous"></script>
+        <!-- <script src="https://www.unpkg.com/browse/web3@1.3.5/dist/web3.min.js"></script> -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+       
+
+          window.onload = function(){
+            if(localStorage.length == 0){    
+              window.location = "login.html";
+            }
+          }
+
+
+          var firebaseConfig = {
+        apiKey: "AIzaSyAV3SVokGcFr1e04vvjjbFU3cag8L1VqaA",
+        authDomain: "loginform-7acae.firebaseapp.com",
+        databaseURL: "https://loginform-7acae-default-rtdb.firebaseio.com",
+        projectId: "loginform-7acae",
+        storageBucket: "loginform-7acae.appspot.com",
+        messagingSenderId: "244622916096",
+        appId: "1:244622916096:web:de0135a2f8c130929936e5",
+        measurementId: "G-HPL4VJ18PJ"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+
+
+          //document.getElementById("display_profile").innerHTML = localStorage.getItem("Name");
+          //localStorage.clear();
+
+
+          var logout = document.getElementById("logout");
+           logout.onclick = function(){
+
+              firebase.auth().signOut().then(function(response){
+                //window.onbeforeunload = function() { return "Your work will be lost."; };
+                //console.log(response);
+                 localStorage.clear();
+                window.location = "login.html";
+
+                          // Sign-out successful.
+                }).catch((error) => {
+                  // An error happened.
+                });
+           }
+      </script>
+
+	  <script>
+		  async function CheckMetamaskConnection() {
+            // Modern dapp browsers...
+            if (window.ethereum) {
+                window.web3 = new Web3(window.ethereum);
+                try {
+                    // Request account access if needed
+                    await ethereum.enable();
+                    // Acccounts now exposed
+                    return true;
+                } catch (error) {
+                    // User denied account access...
+                    return false;
+                }
+            }
+            // Legacy dapp browsers...
+            else if (window.web3) {
+                window.web3 = new Web3(web3.currentProvider);
+                // Acccounts always exposed
+
+                return true;
+            }
+            // Non-dapp browsers...
+            else {
+                console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+                return false;
+            }
+        }
+
+        $(document).ready(async function () {
+            var IsMetamask = await CheckMetamaskConnection();
+            if (IsMetamask) {
+                var Address="0x8F88657384EDC5870699d397c7F361d862ee9E83";
+                var ABI=[
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "id",
+				"type": "string"
+			}
+		],
+		"name": "GetManufactDetails",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "id",
+				"type": "string"
+			},
+			{
+				"name": "loc",
+				"type": "string"
+			},
+			{
+				"name": "RName",
+				"type": "string"
+			},
+			{
+				"name": "date",
+				"type": "string"
+			}
+		],
+		"name": "RetailerUpdate",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "id",
+				"type": "string"
+			}
+		],
+		"name": "GetRetailerDetails",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "id",
+				"type": "string"
+			}
+		],
+		"name": "GetDistDetails",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "id",
+				"type": "string"
+			}
+		],
+		"name": "GetProductDetails",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "id",
+				"type": "string"
+			},
+			{
+				"name": "PName",
+				"type": "string"
+			},
+			{
+				"name": "Type",
+				"type": "string"
+			},
+			{
+				"name": "model_no",
+				"type": "string"
+			},
+			{
+				"name": "loc",
+				"type": "string"
+			},
+			{
+				"name": "MName",
+				"type": "string"
+			},
+			{
+				"name": "date",
+				"type": "string"
+			}
+		],
+		"name": "AddProduct",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "generateID",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "id",
+				"type": "string"
+			},
+			{
+				"name": "loc",
+				"type": "string"
+			},
+			{
+				"name": "DName",
+				"type": "string"
+			},
+			{
+				"name": "date",
+				"type": "string"
+			}
+		],
+		"name": "UpdateProduct",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+];
+                myContract =new web3.eth.Contract(ABI,Address);//await web3.eth.contract(ABI).at(Address);
+                console.log("Metamask detected!")
+            } else {
+                console.log("Metamask not detected");
+            }
+        });
+
+
+		function check(){
+			// var x=navigator.geolocation;
+        	// x.getCurrentPosition(success,failure);
+			var loc=localStorage.getItem("Address");
+			var id;
+				myContract.methods.generateID().call().then(function(ID){
+					var id=ID.toString();
+					console.log("id:",id);
+					document.getElementById('cont').style.visibility='visible';
+					var qrcode=new QRCode(document.getElementById('qrResult'),{
+						width:130,
+						height:130
+					});
+					var message=document.getElementById('qr');
+					if(id===""){
+						alert("Input a text");
+						message.focus();
+						return;
+					}
+					qrcode.makeCode(id);
+					var prod_name=document.getElementById("P_Name").value.toString();
+					console.log("product name:",prod_name);
+					var prod_type=document.getElementById("P_Type").value.toString();
+					var model_no=document.getElementById("P_ModelNumber").value.toString();
+					var manu_name=localStorage.getItem("Name");//document.getElementById("P_MfrName").value.toString();
+					//var manu_loc=document.getElementById("P_MfgLocation").value.toString();
+					var manu_date=Date().toString();
+					
+					myContract.methods.AddProduct(id,prod_name,prod_type,model_no,loc,manu_name,manu_date).send({from: '0xfA56c3FD3c781F60D54Ef6Ac7e0647C43aB7796C'})
+						.then(function(receipt){
+							// receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
+						});
+					
+				});
+		}
+			
+			function success(position)
+      		{
+				var loc=position.coords.latitude+" "+position.coords.longitude;
+				console.log(loc);
+				var id;
+				myContract.methods.generateID().call().then(function(ID){
+					var id=ID.toString();
+					console.log("id:",id);
+					document.getElementById('cont').style.visibility='visible';
+					var qrcode=new QRCode(document.getElementById('qrResult'),{
+						width:130,
+						height:130
+					});
+					var message=document.getElementById('qr');
+					if(id===""){
+						alert("Input a text");
+						message.focus();
+						return;
+					}
+					qrcode.makeCode(id);
+					
+					var prod_name=document.getElementById("P_Name").value.toString();
+					console.log("product name:",prod_name);
+					var prod_type=document.getElementById("P_Type").value.toString();
+					var model_no=document.getElementById("P_ModelNumber").value.toString();
+					var manu_name=localStorage.getItem("Name");//document.getElementById("P_MfrName").value.toString();
+					//var manu_loc=document.getElementById("P_MfgLocation").value.toString();
+					var manu_date=Date().toString();
+					
+					myContract.methods.AddProduct(id,prod_name,prod_type,model_no,loc,manu_name,manu_date).send({from: '0xfA56c3FD3c781F60D54Ef6Ac7e0647C43aB7796C'})
+						.then(function(receipt){
+							// receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
+						});
+					
+				});
+			}
+
+			function failure(){
+        		console.log("Failure occured");
+			}	
+				/*
+				myContract.methods.UpdateProduct("12","Pune","NG").send({from: '0xfA56c3FD3c781F60D54Ef6Ac7e0647C43aB7796C'})
+					.then(function(receipt){
+						// receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
+					});
+				*/
+		   function close_QR(){
+			   document.getElementById('cont').style.visibility='hidden';
+			   window.location.reload();
+		   }
+
+	  </script>
+	 
+    <script src="Check_product/js/header-8.js"></script>
+
+  </body>
+</html>
